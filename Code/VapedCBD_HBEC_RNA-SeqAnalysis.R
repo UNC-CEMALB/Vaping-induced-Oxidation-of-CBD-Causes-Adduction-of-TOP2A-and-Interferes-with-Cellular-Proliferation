@@ -168,51 +168,52 @@ Heatmap(hmtable,
                   annotation_legend_param = list(Group = list(labels = c("Apical_CBD", "CBD_Juice_20Puff", "CBD_Oil_20Puff"), at = c("Apical_CBD", "CBD_Juice_20Puff", "CBD_Oil_20Puff")))))
 dev.off()
 
+#making heatmap with clusters
+HM <- Heatmap(hmtable,
+              km = 4,
+              heatmap_legend_param = list(title = "Z-score"),
+              column_names_gp = gpar(fontsize = 11),
+              row_names_gp = gpar(fontsize = 6),
+              show_row_names = FALSE,
+              top_annotation = HeatmapAnnotation(
+                Group = coldata$name, 
+                simple_anno_size = unit(.4, "cm"),
+                show_annotation_name = FALSE,  
+                col = list(Group = c("Non-vaped CBD Juice" = "lightskyblue", "20 Puffs CBD Juice" = "plum2", "20 Puffs CBD Distillate" = "brown")), 
+                annotation_legend_param = list(Group = list(labels = c("Non-vaped CBD Juice", "20 Puffs CBD Juice", "20 Puffs CBD Distillate"), at = c("Non-vaped CBD Juice", "20 Puffs CBD Juice", "20 Puffs CBD Distillate")))))
 
-#extracting gene lists for specific clusters
-HM <- Heatmap(hmtable, km=4)  #in first heatmap, there we 3 main sub-clusters, split it into these 3 to obtain gene IDs for each clusster
+# **Force heatmap to be drawn and finalized**
+HM <- draw(HM)
 
-tiff(filename = "HM_clusters.tiff", width = 2500, height = 2000, res = 300)
-HM
+# **Extract consistent cluster information**
+rcl.list <- row_order(HM)  # Ensures extracted clusters match heatmap
+
+# **Save heatmap image**
+png(filename = "Sig_Genes_AllGroups_HM_clusters.png", width = 6000, height = 6000, res = 900)
+draw(HM)  # Ensures the exact same clustering is saved
 dev.off()
 
-HM <- draw(HM)  #Show the heatmap
-
-#formatted heatmap with clusters
-tiff(filename = "Vaped CBD 4 clusters HM.tiff", width = 2500, height = 2000, res = 300)
-Heatmap(hmtable,
-        km = 4,
-        heatmap_legend_param = list(title = "Z-score"),
-        column_names_gp = gpar(fontsize = 11),
-        row_names_gp = gpar(fontsize = 6),
-        show_row_names = FALSE,
-        row_title = NULL,
-        top_annotation = HeatmapAnnotation(
-          Group = coldata$name, 
-          simple_anno_size = unit(.4, "cm"),
-          show_annotation_name = FALSE,  
-          col = list(Group = c("Non-vaped CBD Juice" = "lightskyblue", "20 Puffs CBD Juice" = "plum2", "20 Puffs CBD Distillate" = "brown")), 
-          annotation_legend_param = list(Group = list(labels = c("Non-vaped CBD Juice", "20 Puffs CBD Juice", "20 Puffs CBD Distillate"), at = c("Non-vaped CBD Juice", "20 Puffs CBD Juice", "20 Puffs CBD Distillate")))))
-dev.off()
-
-r.dend <- row_dend(HM)  #extracting row dendrogram
-rcl.list <- row_order(HM)  #returns the order (numbered rownames) of each cluster specified above
-
-lapply(rcl.list, function(x) length(x))  #check/confirm size gene clusters
-
-library(magrittr) # needed to load the pipe function '%%'
-
+# **Convert cluster information into a data frame**
 clu_df <- lapply(names(rcl.list), function(i){
-  out <- data.frame(GeneID = rownames(hmtable[rcl.list[[i]],]),
+  out <- data.frame(GeneID = rownames(hmtable)[rcl.list[[i]]],
                     Cluster = paste0("cluster", i),
                     stringsAsFactors = FALSE)
   return(out)
-}) %>%  #pipe (forward) the output 'out' to the function rbind to create 'clu_df'
-  do.call(rbind, .)
+}) %>% do.call(rbind, .)
 
-clu_df$GeneName <- mapIds(org.Hs.eg.db, keys = clu_df$GeneID, keytype = "ENSEMBL", column = "SYMBOL") #adding on gene names
+# **Map gene symbols to Ensembl IDs**
+clu_df$GeneName <- mapIds(org.Hs.eg.db, keys = clu_df$GeneID, keytype = "ENSEMBL", column = "SYMBOL")
+
+# **Save cluster assignments to a text file**
 write.table(clu_df, file= "HM_gene_clusters.txt", sep="\t", quote=F, row.names=FALSE)
 
+# Check the number of genes in each cluster from row_order(HM)
+cluster_sizes_heatmap <- sapply(rcl.list, length)
+print(cluster_sizes_heatmap)
+
+# Check the number of genes in each cluster from the output file
+cluster_sizes_file <- table(clu_df$Cluster)
+print(cluster_sizes_file)
 
 #Making Venn diagram
 if (!require(devtools)) install.packages("devtools")
