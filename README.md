@@ -1,4 +1,7 @@
-# Vaping-induced-Oxidation-of-CBD-Causes-Adduction-of-TOP2A-and-Interferes-with-Cellular-Proliferation
+# Vaping-induced Oxidation of CBD Causes Adduction of TOP2A and Interferes with Cellular Proliferation
+
+This code was generated to support the manuscript entitled, 'Vaping-induced Oxidation of CBD Causes Adduction of TOP2A and Interferes with Cellular Proliferation', published in 2025 in the American Journal of Respiratory Cell and Molecular Biology (PMID: 40305674). doi: https://doi.org/10.1165/rcmb.2024-0501OC 
+
 R version 4.3.3
 
 ## Package	Versions
