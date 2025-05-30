@@ -2,18 +2,12 @@
 
 This code was generated to support the manuscript entitled, 'Vaping-induced Oxidation of CBD Causes Adduction of TOP2A and Interferes with Cellular Proliferation', published in 2025 in the American Journal of Respiratory Cell and Molecular Biology (PMID: 40305674). doi: https://doi.org/10.1165/rcmb.2024-0501OC 
 
-R version 4.3.3
+# CBD_CBDQ_16HBE_RNA-SeqAnalysis
+- Using DESeq2 to determine differentially expressed genes after varying CBD products (control, cannabidiol (CBD) and reactive electrophile CBD quinone(CBDQ)) across two exposure durations (ie. 12 and 24 hours)
+- Creating heatmap of genes that were significantly different
+- Creating a venn diagram to determine genes that were signficantly altered in multiple exposure groups
 
-## Package	Versions
-- **DESeq2**: 1.42.1
-- **apeglm**: 1.24.0
-- **pheatmap**: 1.0.12
-- **org.Hs.eg.db**: 3.18.0
-- **ComplexHeatmap**: 2.18.0
-- **tibble**: 3.2.1
-- **dplyr**: 1.1.4
-- **fgsea**: 1.28.0
-- **ggplot2**: 3.5.0
-- **ggrepel**: 0.9.5
-- **ggfortify**: 0.4.17
-- **ggVennDiagram**: 1.5.2
+# VapedCBD_HBEC_RNA-SeqAnalysis
+- Using DESeq2 to determine differentially expressed genes after varying vaped CBD products (apical CBD, CBD juice, and CBD oil) after 20 puffs of exposure
+- Creating heatmap of genes that were significantly different
+- Creating a venn diagram to determine genes that were signficantly altered in multiple exposure groups
