@@ -3,7 +3,7 @@
 This code was generated to support the manuscript entitled, 'Vaping-induced Oxidation of CBD Causes Adduction of TOP2A and Interferes with Cellular Proliferation', published in 2025 in the American Journal of Respiratory Cell and Molecular Biology (PMID: 40305674). doi: https://doi.org/10.1165/rcmb.2024-0501OC 
 
 <p align="center">
-<img src = 'https://github.com/user-attachments/files/20531312/RCMB20240501OC_AU.2.pdf' width = '600'>
+<img src = 'https://github.com/user-attachments/assets/84220c14-bc22-40b6-9276-a7a27ac2c3cf' width = '600'>
 </p>
 
 
